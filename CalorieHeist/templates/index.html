@@ -3,7 +3,7 @@
 <h1 style="text-align: center">Welcome</h1>
 <h3 style="text-align: center;">Add a food item</h3>
 <div style="text-align: center;">
-    <form action="/" method="post" enctype="multipart/form-data">
+    <form action="/addFoodItems" method="post" enctype="multipart/form-data">
         {%csrf_token%}
         <h6>Food item</h6> <span><input type="text" name="name" id="name"></span>
         <h6>Calories</h6> <span><input type="number" step="0.01" name="calorie" id="calorie"></span>

@@ -9,4 +9,11 @@ urlpatterns = [
     path("logout", views.logoutUser, name="logout"),
     path("addToFavorites/<int:id>", views.addToFavorites, name="addToFavorites"),
     path("favorites", views.favorites, name="favorites"),
+    path("trackingMealNutrients", views.trackingMealNutrients,
+         name="trackingMealNutrients"),
+    path("trackingNutrients", views.trackingNutrients, name="trackingNutrients"),
+    path("addFoodItems", views.addFoodItems, name="addFoodItems"),
+    path("weekly", views.weekly, name="weekly"),
+    path("workout", views.workout, name="workout"),
+    path("notify", views.notify, name="notify"),
 ]
