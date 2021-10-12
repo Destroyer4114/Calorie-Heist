@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block content %} {% for item in favorite %}
+<div class="container">
+  <img src="{{item.image.url}}" alt="{{item.name}}" />
+  <p>{{item.name}}</p>
+  <p>{{item.calorie}}</p>
+  <p>{{item.protein}}</p>
+  <p>{{item.fat}}</p>
+  {% endfor %} {% endblock content %}
+</div>

@@ -1,7 +1,9 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+
+from home.models import FoodItems
 
 # Create your views here.
 
@@ -9,7 +11,20 @@ from django.contrib.auth import authenticate, login, logout
 def index(request):
     if request.user.is_anonymous:
         return redirect("/login")
-    return render(request, "index.html", {"user": request.user})
+
+    if request.method == 'POST':
+        name = request.POST['name']
+        calorie = request.POST['calorie']
+        protein = request.POST['protein']
+        fat = request.POST['fat']
+        if len(request.FILES) != 0:
+            image = request.FILES['image']
+        item = FoodItems(name=name, calorie=calorie,
+                         protein=protein, fat=fat, image=image)
+        item.save()
+        messages.success(request, "Data submitted successfully")
+    items = FoodItems.objects.all()
+    return render(request, "index.html", {"items": items})
 
 
 def loginUser(request):
@@ -41,3 +56,19 @@ def signup(request):
 def logoutUser(request):
     logout(request)
     return redirect("/login")
+
+
+def addToFavorites(request, id):
+    item = get_object_or_404(FoodItems, id=id)
+    if item.favorite.filter(id=request.user.id).exists():
+        pass
+    else:
+        item.favorite.add(request.user)
+        messages.success(request, "Added to favorites")
+    return redirect("/")
+
+
+def favorites(request):
+    user = request.user
+    favorite = user.favorite.all()
+    return render(request, "favorites.html", {"favorite": favorite})
