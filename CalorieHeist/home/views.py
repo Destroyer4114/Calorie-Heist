@@ -1,4 +1,4 @@
-from win10toast import ToastNotifier
+# from win10toast import ToastNotifier
 from datetime import date, datetime, timedelta
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 
-from home.models import FoodItems, MealNutrients
+from home.models import FoodItems, MealNutrients, NutrientsTracking
 
 # Create your views here.
 
@@ -104,20 +104,86 @@ def trackingNutrients(request):
 
 
 def weekly(request):
-    some_day_last_week = timezone.now().date() - timedelta(days=7)
-    monday_of_last_week = some_day_last_week - \
-        timedelta(days=(some_day_last_week.isocalendar()[2] - 1))
-    monday_of_this_week = monday_of_last_week + timedelta(days=7)
-    meals = MealNutrients.objects.filter(created_at__gte=monday_of_last_week,
-                                         created_at__lt=monday_of_this_week)
-    print(meals)
-    return HttpResponseRedirect("trackingNutrients")
+    items = MealNutrients.objects.filter(username=request.user.username,
+                                         day=date.today())
+    calorie = 0
+    protein = 0
+    fat = 0
+    fiber = 0
+    for item in items:
+        calorie = calorie + item.calorie
+        protein = protein + item.protein
+        fat = fat + item.fat
+        fiber = fiber + item.fiber
+    if NutrientsTracking.objects.filter(username=request.user.username,
+                                        date=date.today()).exists():
+        meal = NutrientsTracking.objects.get(username=request.user.username,
+                                             date=date.today())
+        meal.calorie = calorie
+        meal.protein = protein
+        meal.fat = fat
+        meal.fiber = fiber
+        meal.save()
+    else:
+        meal = NutrientsTracking(username=request.user.username,
+                                 calorie=calorie, protein=protein, fat=fat, fiber=fiber)
+        meal.save()
+    re = NutrientsTracking.objects.get(username=request.user.username,
+                                       date=date.today())
+    if re.day <= 7:
+        records = NutrientsTracking.objects.filter(
+            username=request.user.username)[:re.day+1]
+    else:
+        x = re.day - 7
+        records = NutrientsTracking.objects.filter(
+            username=request.user.username)[x:re.day+1]
+
+    return render(request, "weekly.html", {"records": records})
 
 
-def workout(request):
-    return render(request, "workout.html")
+def monthly(request):
+    items = MealNutrients.objects.filter(username=request.user.username,
+                                         day=date.today())
+    calorie = 0
+    protein = 0
+    fat = 0
+    fiber = 0
+    for item in items:
+        calorie = calorie + item.calorie
+        protein = protein + item.protein
+        fat = fat + item.fat
+        fiber = fiber + item.fiber
+    if NutrientsTracking.objects.filter(username=request.user.username,
+                                        date=date.today()).exists():
+        meal = NutrientsTracking.objects.get(username=request.user.username,
+                                             date=date.today())
+        meal.calorie = calorie
+        meal.protein = protein
+        meal.fat = fat
+        meal.fiber = fiber
+        meal.save()
+    else:
+        meal = NutrientsTracking(username=request.user.username,
+                                 calorie=calorie, protein=protein, fat=fat, fiber=fiber)
+        meal.save()
+    re = NutrientsTracking.objects.get(username=request.user.username,
+                                       date=date.today())
+    if re.day <= 30:
+        records = NutrientsTracking.objects.filter(
+            username=request.user.username)[:re.day+1]
+    else:
+        x = re.day - 30
+        records = NutrientsTracking.objects.filter(
+            username=request.user.username)[x:re.day+1]
 
-def notify(request):
-    hr = ToastNotifier()
-    hr.show_toast("alert", "A new notification")
-    return HttpResponseRedirect("/workout")
+    return render(request, "monthly.html", {"records": records})
+
+
+# def workout(request):
+#     return render(request, "workout.html")
+
+
+# def notify(request):
+#     hr = ToastNotifier()
+#     hr.show_toast("alert", "A new notification")
+#     return HttpResponseRedirect("/workout")

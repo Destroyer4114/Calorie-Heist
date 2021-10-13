@@ -29,3 +29,18 @@ class MealNutrients(models.Model):
     protein = models.FloatField()
     fat = models.FloatField()
     fiber = models.FloatField()
+
+
+class NutrientsTracking(models.Model):
+    username = models.CharField(max_length=100, default="")
+    date = models.DateField(default=timezone.now)
+    day = models.AutoField(primary_key=True)
+    calorie = models.FloatField()
+    protein = models.FloatField()
+    fat = models.FloatField()
+    fiber = models.FloatField()
+
+
+class Notifications(models.Model):
+    message = models.TextField()
+    time = models.TimeField()
