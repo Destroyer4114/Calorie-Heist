@@ -15,6 +15,7 @@ urlpatterns = [
     path("addFoodItems", views.addFoodItems, name="addFoodItems"),
     path("weekly", views.weekly, name="weekly"),
     path("monthly", views.monthly, name="monthly"),
-    # path("workout", views.workout, name="workout"),
-    # path("notify", views.notify, name="notify"),
+    path("calorieNeed", views.calorieNeed, name="calorieNeed"),
+    path("calorieCalculator", views.calorieCalculator, name="calorieCalculator"),
+    path("healthTip", views.healthTip, name="healthTip"),
 ]

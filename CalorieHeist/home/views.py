@@ -1,4 +1,3 @@
-# from win10toast import ToastNotifier
 from datetime import date, datetime, timedelta
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
@@ -6,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
+from home.models import Notifications
 
 from home.models import FoodItems, MealNutrients, NutrientsTracking
 
@@ -16,6 +16,7 @@ def index(request):
     if request.user.is_anonymous:
         return redirect("/login")
     items = FoodItems.objects.filter(username=request.user.username)
+    print(str(datetime.now().hour) + ":" + str(datetime.now().minute))
     return render(request, "index.html", {"items": items})
 
 
@@ -100,6 +101,7 @@ def trackingNutrients(request):
     meals = MealNutrients.objects.filter(
         username=request.user.username,
         day=date.today())
+
     return render(request, "trackingNutrients.html", {"meals": meals})
 
 
@@ -179,11 +181,53 @@ def monthly(request):
     return render(request, "monthly.html", {"records": records})
 
 
-# def workout(request):
-#     return render(request, "workout.html")
+def calorieNeed(request):
+    return render(request, "calorieNeed.html")
 
 
-# def notify(request):
-#     hr = ToastNotifier()
-#     hr.show_toast("alert", "A new notification")
-#     return HttpResponseRedirect("/workout")
+def calorieCalculator(request):
+    if request.method == "POST":
+        height = request.POST['height']
+        weight = request.POST['weight']
+        age = request.POST['age']
+        gender = request.POST['gender']
+        activity = request.POST['activity']
+        bmr = 0
+        bmi = float(weight)/(float(height)*float(height))
+        bmi = bmi*10000
+        bmi = round(bmi, 2)
+        if gender == "male":
+            bmr = 66 + (13.7*float(weight)) + \
+                (5*float(height)) - (6.8*float(age))
+        elif gender == "female":
+            bmr = 655 + (9.6*float(weight)) + \
+                (1.8*float(height)) - (4.7*float(age))
+        calorie = 0
+        if activity == "sedentary":
+            calorie = bmr*1.2
+        elif activity == "light":
+            calorie = bmr*1.375
+        elif activity == "moderate":
+            calorie = bmr*1.55
+        elif activity == "very":
+            calorie = bmr*1.725
+        elif activity == "extra":
+            calorie = bmr*1.9
+
+    protein = calorie/5
+    fat = calorie/4
+    carbohydrate = calorie - (protein+fat)
+    protein /= 4
+    fat /= 9
+    carbohydrate /= 4
+    protein = round(protein, 2)
+    fat = round(fat, 2)
+    carbohydrate = round(carbohydrate, 2)
+    calorie = round(calorie, 2)
+    context = {"calorie": calorie, "bmi": bmi,
+               "carbohydrate": carbohydrate, "protein": protein, "fat": fat}
+    return render(request, "calorieNeed.html", context)
+
+
+def healthTip(request):
+    return render(request, "healthTip.html")

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container" id="tip"></div>
+    <script>
+
+        async function getTip() {
+            const response = await fetch("https://health.gov/myhealthfinder/api/v3/topicsearch.json")
+            const data = await response.json()
+            const a = data.Result.Resources.Resource.length
+            let i = Math.floor(Math.random()*(a+1))
+            var tip = document.getElementById("tip")
+            var result = `<h4>${data.Result.Resources.Resource[i].Title}</h4>`
+            tip.innerHTML = result
+        }
+
+        getTip()
+
+    </script>
+
+{% endblock content %}
+
