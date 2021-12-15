@@ -46,3 +46,11 @@ class Notifications(models.Model):
     date = models.DateField(default=timezone.now)
     body = models.TextField()
     time = models.CharField(max_length=50)
+
+
+class Workout(models.Model):
+    username = models.CharField(max_length=100)
+    data = models.DateField(default=timezone.now)
+    walking = models.FloatField(default=0)
+    running = models.FloatField(default=0)
+    cycling = models.FloatField(default=0)

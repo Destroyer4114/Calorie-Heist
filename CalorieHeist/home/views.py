@@ -197,11 +197,11 @@ def calorieCalculator(request):
         bmi = bmi*10000
         bmi = round(bmi, 2)
         if gender == "male":
-            bmr = 66 + (13.7*float(weight)) + \
-                (5*float(height)) - (6.8*float(age))
+            bmr = 5 + (10*float(weight)) + \
+                (6.25*float(height)) - (5*float(age))
         elif gender == "female":
-            bmr = 655 + (9.6*float(weight)) + \
-                (1.8*float(height)) - (4.7*float(age))
+            bmr = (10*float(weight)) + \
+                (6.25*float(height)) - (5*float(age)) - 161
         calorie = 0
         if activity == "sedentary":
             calorie = bmr*1.2
@@ -231,3 +231,48 @@ def calorieCalculator(request):
 
 def healthTip(request):
     return render(request, "healthTip.html")
+
+
+def portfolio(request):
+    records = MealNutrients.objects.filter(
+        username=request.user.username, day=date.today())
+    calorie = 0
+    protein = 0
+    fat = 0
+    fiber = 0
+    for record in records:
+        calorie += record.calorie
+        protein += record.protein
+        fat += record.fat
+        fiber += record.fiber
+    context = {
+        "calorie": calorie,
+        "protein": protein,
+        "fat": fat,
+        "fiber": fiber
+    }
+    return render(request, "portfolio.html", context)
+
+
+def workout(request):
+    return render(request, "workoutTracker.html")
+
+
+def activitySelection(request):
+    if request.method == "POST":
+        height = request.POST['height']
+        weight = request.POST['weight']
+        age = request.POST['age']
+        gender = request.POST['gender']
+        duration = request.POST['duration']
+        speed = request.POST['speed']
+        bmr = 0
+        if gender == "male":
+            bmr = 5 + (10*float(weight)) + \
+                (6.25*float(height)) - (5*float(age))
+        elif gender == "female":
+            bmr = (10*float(weight)) + \
+                (6.25*float(height)) - (5*float(age)) - 161
+        mets = float(speed)*(float(duration)/60)
+        calorie = (bmr*mets)/24
+        return render(request, "workoutTracker.html", {"calorie": calorie, "bmr": bmr})

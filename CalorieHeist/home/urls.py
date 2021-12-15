@@ -18,4 +18,7 @@ urlpatterns = [
     path("calorieNeed", views.calorieNeed, name="calorieNeed"),
     path("calorieCalculator", views.calorieCalculator, name="calorieCalculator"),
     path("healthTip", views.healthTip, name="healthTip"),
+    path("portfolio", views.portfolio, name="portfolio"),
+    path("workout", views.workout, name="workout"),
+    path("activitySelection", views.activitySelection, name="activitySelection"),
 ]

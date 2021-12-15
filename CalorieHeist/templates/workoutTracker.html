@@ -1,0 +1,352 @@
+{% extends 'base.html' %} {% block content %}
+
+{% comment %} Walking data {% endcomment %}
+<button
+  class="btn btn-primary"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasRight"
+  aria-controls="offcanvasRight"
+>
+  Add walking data
+</button>
+
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasRight"
+  aria-labelledby="offcanvasRightLabel"
+>
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Track your workout</h5>
+  </div>
+  <div class="offcanvas-body">
+    <form action="/activitySelection" method="post">
+      {%csrf_token%}
+      <div class="mb-3">
+        <label for="activity" class="form-label">Activity</label>
+        <select
+          method="post"
+          href="/activitySelection"
+          class="form-select"
+          aria-label="Default select example"
+          id="meal"
+          name="meal"
+        >
+          <option value="walking">Walking</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="height" class="form-label">Height (in cm)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="height"
+          name="height"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="weight" class="form-label">Weight (in kg)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="weight"
+          name="weight"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <input
+          type="number"
+          class="form-control"
+          id="age"
+          name="age"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="gender"
+          name="gender"
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="speed" class="form-label">Speed</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="speed"
+          name="speed"
+        >
+          <option value="2">Less than 2.0mph (3.2km/h)</option>
+          <option value="2.8">2.0mph (3.2km/h)</option>
+          <option value="3">2.5mph (4.0km/h)</option>
+          <option value="3.5">3.0mph (4.8km/h)</option>
+          <option value="4.3">3.5mph (5.6km/h)</option>
+          <option value="5">4.0mph (6.4km/h)</option>
+          <option value="7">4.5mph (7.2km/h)</option>
+          <option value="8.3">5.0mph (8.0km/h)</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Duration</label>
+        <input
+          type="number"
+          class="form-control"
+          id="duration"
+          name="duration"
+          required="true"
+        />
+      </div>
+      <button type="submit" type="button" class="btn btn-primary">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+
+{% comment %} Running data {% endcomment %}
+<button
+  class="btn btn-primary"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasRight1"
+  aria-controls="offcanvasRight1"
+>
+  Add running data
+</button>
+
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasRight1"
+  aria-labelledby="offcanvasRightLabel"
+>
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Track your workout</h5>
+  </div>
+  <div class="offcanvas-body">
+    <form action="/activitySelection" method="post">
+      {%csrf_token%}
+      <div class="mb-3">
+        <label for="activity" class="form-label">Activity</label>
+        <select
+          method="post"
+          href="/activitySelection"
+          class="form-select"
+          aria-label="Default select example"
+          id="meal"
+          name="meal"
+        >
+          <option value="running">Running</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="height" class="form-label">Height (in cm)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="height"
+          name="height"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="weight" class="form-label">Weight (in kg)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="weight"
+          name="weight"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <input
+          type="number"
+          class="form-control"
+          id="age"
+          name="age"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="gender"
+          name="gender"
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="speed" class="form-label">Speed</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="speed"
+          name="speed"
+        >
+        <option value="6">4mph (6.4km/h)</option>
+        <option value="8.3">5mph (8km/h)</option>
+        <option value="9">5.2mph (8.4km/h)</option>
+        <option value="9.8">6mph (9.7km/h)</option>
+        <option value="10.5">6.7mph (10.8km/h)</option>
+        <option value="11">7mph (11.3km/h)</option>
+        <option value="11.5">7.5mph (12.1km/h)</option>
+        <option value="11.8">8mph (12.9km/h)</option>
+        <option value="12.3">8.6mph (13.8km/h)</option>
+        <option value="12.8">9mph (14.5km/h)</option>
+        <option value="14.5">10mph (16.1km/h)</option>
+        <option value="16">11mph (17.7km/h)</option>
+        <option value="19">12mph (19.3km/h)</option>
+        <option value="19.8">13mph (20.9km/h)</option>
+        <option value="23">14mph (22.5km/h)</option>
+         
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Duration</label>
+        <input
+          type="number"
+          class="form-control"
+          id="duration"
+          name="duration"
+          required="true"
+        />
+      </div>
+      <button type="submit" type="button" class="btn btn-primary">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+
+<button
+  class="btn btn-primary"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#offcanvasRight2"
+  aria-controls="offcanvasRight2"
+>
+  Add cycling data
+</button>
+
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasRight2"
+  aria-labelledby="offcanvasRightLabel2"
+>
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Track your workout</h5>
+  </div>
+  <div class="offcanvas-body">
+    <form action="/activitySelection" method="post">
+      {%csrf_token%}
+      <div class="mb-3">
+        <label for="activity" class="form-label">Activity</label>
+        <select
+          method="post"
+          href="/activitySelection"
+          class="form-select"
+          aria-label="Default select example"
+          id="meal"
+          name="meal"
+        >
+          <option value="cycling">Cycling</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="height" class="form-label">Height (in cm)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="height"
+          name="height"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="weight" class="form-label">Weight (in kg)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="weight"
+          name="weight"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <input
+          type="number"
+          class="form-control"
+          id="age"
+          name="age"
+          required="true"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="gender"
+          name="gender"
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="speed" class="form-label">Speed</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="speed"
+          name="speed"
+        >
+          <option value="3.5">5.5mph (8.9km/h)</option>
+          <option value="5.8">9.4mph (15.1km/h)</option>
+          <option value="6.8">10-12mph (16.1~19.2km/h)</option>
+          <option value="8">12-14mph (19.3~22.4km/h)</option>
+          <option value="10">14-16mph (22.5~25.7km/h)</option>
+          <option value="12">16-20mph (25.7~32.1km/h)</option>
+          <option value="15.8">>20mph (32.2km/h)</option>
+
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Duration</label>
+        <input
+          type="number"
+          class="form-control"
+          id="duration"
+          name="duration"
+          required="true"
+        />
+      </div>
+      <button type="submit" type="button" class="btn btn-primary">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<h5>BMR: {{bmr}}</h5>
+<h5>Calories burnt: {{calorie}}kcal</h5>
+{% endblock content %}

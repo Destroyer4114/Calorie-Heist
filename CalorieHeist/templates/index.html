@@ -16,13 +16,13 @@
 </div>
 
 {% for item in items %}
-    <div class="container">
-    <img src={{item.image.url}} alt={{item.name}}>
+    <div class="container" style="border: 1px solid gray; margin: 15px;">
+    <img style="width: 250px; height: auto;" src={{item.image.url}} alt={{item.name}}>
     <p>{{item.name}}</p>
     <p>{{item.calorie}}</p>
     <p>{{item.protein}}</p>
     <p>{{item.fat}}</p>
-    <a class="btn btn-primary" href="/addToFavorites/{{item.id}}">Add To Favorites</a>
+    <a class="btn btn-primary" style="margin-bottom: 10px;" href="/addToFavorites/{{item.id}}">Add To Favorites</a>
     </div>
 {% endfor %}
 
